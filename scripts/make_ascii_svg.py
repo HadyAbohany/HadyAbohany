@@ -23,8 +23,7 @@ def convert_to_ascii_svg(
 
     resized = cv2.resize(img, (cols, rows))
 
-    # Bright → sparse
-    # Dark → dense
+    # Sparse → Dense
     RAMP = " .`:-=+*cs#%@"
 
     char_width = 8
@@ -47,17 +46,7 @@ height="{height}">
     .txt {{
         font-family: "Courier New", monospace;
         font-size: 12px;
-        fill: #8b949e;
-        opacity: 0;
-    }}
-
-    @keyframes fadeIn {{
-        from {{
-            opacity: 0;
-        }}
-        to {{
-            opacity: 1;
-        }}
+        fill: #c9d1d9;
     }}
 </style>
 
@@ -68,8 +57,13 @@ height="{height}">
     rx="8"
 />
 
-<g transform="translate(10, 25)">
+<defs>
 '''
+
+    row_start_delay = 0.05    # gap between when each row starts typing
+    row_type_dur = 0.28       # how long a single row takes to fully type
+
+    rows_svg = []
 
     for i in range(rows):
 
@@ -79,8 +73,10 @@ height="{height}">
 
             value = resized[i, j]
 
+            # Dark pixel (face/hair details) → dense char
+            # Bright pixel (white background) → space (invisible)
             index = int(
-                (value / 255.0) * (len(RAMP) - 1)
+                ((255 - value) / 255.0) * (len(RAMP) - 1)
             )
 
             char = RAMP[index]
@@ -95,19 +91,38 @@ height="{height}">
 
         row = "".join(row_chars)
 
-        delay = i * 0.035
+        delay = round(i * row_start_delay, 3)
+        y = i * char_height
 
+        # clipPath grows left → right, revealing the row like typing
         svg += f'''
-    <text
-        x="0"
-        y="{i * char_height}"
-        class="txt"
-        style="
-            animation: fadeIn 0.35s ease-out forwards;
-            animation-delay: {delay:.3f}s;
-        "
-    >{row}</text>
+    <clipPath id="clip-row-{i}">
+        <rect x="0" y="{y - char_height + 3}" width="0" height="{char_height}">
+            <animate
+                attributeName="width"
+                from="0"
+                to="{width}"
+                begin="{delay}s"
+                dur="{row_type_dur}s"
+                fill="freeze"
+                calcMode="linear"
+            />
+        </rect>
+    </clipPath>
 '''
+
+        rows_svg.append(
+            f'    <text x="0" y="{y}" class="txt" '
+            f'clip-path="url(#clip-row-{i})">{row}</text>'
+        )
+
+    svg += '''
+</defs>
+
+<g transform="translate(10, 25)">
+'''
+
+    svg += "\n".join(rows_svg)
 
     svg += '''
 </g>

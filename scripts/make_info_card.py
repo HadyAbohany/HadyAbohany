@@ -22,14 +22,14 @@ def make_info_card(output="info-card.svg"):
         ("education", education),
     ]
 
-    # escape XML-special characters (&, <, >) in every value
-    # so raw "&" (like in "Systems & Computers Engineering")
-    # doesn't break the SVG's XML parsing on GitHub
     lines = [(key, escape(value)) for key, value in lines]
     safe_name = escape(name)
 
     width = 490
     height = 330
+
+    # Monospace char width approximation at font-size 14px
+    CHAR_W = 8.6
 
     svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg
@@ -62,6 +62,8 @@ height="{height}">
         font-size: 14px;
         font-weight: bold;
         fill: #79c0ff;
+        opacity: 0;
+        animation: keyIn 0.3s ease-out forwards;
     }}
 
     .value {{
@@ -74,6 +76,26 @@ height="{height}">
         font-family: monospace;
         font-size: 13px;
         fill: #7ee787;
+    }}
+
+    .cursor {{
+        fill: #7ee787;
+    }}
+
+    @keyframes keyIn {{
+        from {{
+            opacity: 0;
+            transform: translateX(-6px);
+        }}
+        to {{
+            opacity: 1;
+            transform: translateX(0);
+        }}
+    }}
+
+    @keyframes blink {{
+        0%, 100% {{ opacity: 1; }}
+        50% {{ opacity: 0; }}
     }}
 
 </style>
@@ -124,46 +146,76 @@ height="{height}">
 '''
 
     start_y = 120
+    row_gap = 27
+
+    # Typing timeline: rows start one after another, each value
+    # types out over `type_dur`, cursor blinks briefly then hides.
+    row_start_gap = 0.45
+    type_dur = 0.35
+    cursor_blink_dur = 0.4
+    cursor_blinks = 2
 
     for i, (key, value) in enumerate(lines):
 
-        y = start_y + i * 27
-        delay = round(i * 0.12, 2)
-        dur = 0.45
+        y = start_y + i * row_gap
+        row_start = round(0.15 + i * row_start_gap, 3)
+        key_delay = row_start
+        type_begin = round(row_start + 0.12, 3)
+
+        text_width = len(value) * CHAR_W + 4
+        cursor_x = 125 + text_width
+
+        cursor_visible_dur = cursor_blink_dur * cursor_blinks
 
         svg += f'''
-<g opacity="0">
-
-    <animate
-        attributeName="opacity"
-        from="0"
-        to="1"
-        begin="{delay}s"
-        dur="{dur}s"
-        fill="freeze"
-    />
-
-    <animateTransform
-        attributeName="transform"
-        type="translate"
-        from="-8 0"
-        to="0 0"
-        begin="{delay}s"
-        dur="{dur}s"
-        fill="freeze"
-    />
+<g>
 
     <text
         x="25"
         y="{y}"
         class="key"
+        style="animation-delay: {key_delay}s;"
     >{key}:</text>
+
+    <clipPath id="clip-value-{i}">
+        <rect x="120" y="{y - 14}" width="0" height="18">
+            <animate
+                attributeName="width"
+                from="0"
+                to="{text_width + 10}"
+                begin="{type_begin}s"
+                dur="{type_dur}s"
+                fill="freeze"
+                calcMode="linear"
+            />
+        </rect>
+    </clipPath>
 
     <text
         x="125"
         y="{y}"
         class="value"
+        clip-path="url(#clip-value-{i})"
     >{value}</text>
+
+    <rect
+        x="{cursor_x:.1f}"
+        y="{y - 12}"
+        width="2"
+        height="14"
+        class="cursor"
+        opacity="0"
+    >
+        <animate
+            attributeName="opacity"
+            begin="{type_begin + type_dur}s"
+            dur="{cursor_blink_dur}s"
+            values="0;1;0;1;0"
+            keyTimes="0;0.25;0.5;0.75;1"
+            repeatCount="{cursor_blinks}"
+            fill="freeze"
+        />
+    </rect>
 
 </g>
 '''
