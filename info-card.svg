@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <svg
 xmlns="http://www.w3.org/2000/svg"
 viewBox="0 0 490 330"
@@ -42,23 +43,6 @@ height="330">
         fill: #7ee787;
     }
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateX(-8px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    .line {
-        opacity: 0;
-        animation: fadeIn 0.45s ease-out forwards;
-    }
-
 </style>
 
 <rect
@@ -89,9 +73,7 @@ height="330">
     x="75"
     y="23"
     class="title"
->
-    hady@github ~
-</text>
+>hady@github ~</text>
 
 <!-- Prompt -->
 
@@ -99,176 +81,256 @@ height="330">
     x="25"
     y="58"
     class="prompt"
->
-    $ whoami
-</text>
+>$ whoami</text>
 
 <text
     x="25"
     y="86"
     class="title"
->
-    Hady Abohany
-</text>
+>Hady Abohany</text>
 
-<g
-    class="line"
-    style="animation-delay: 0.00s;"
->
+<g opacity="0">
+
+    <animate
+        attributeName="opacity"
+        from="0"
+        to="1"
+        begin="0.0s"
+        dur="0.45s"
+        fill="freeze"
+    />
+
+    <animateTransform
+        attributeName="transform"
+        type="translate"
+        from="-8 0"
+        to="0 0"
+        begin="0.0s"
+        dur="0.45s"
+        fill="freeze"
+    />
 
     <text
         x="25"
         y="120"
         class="key"
-    >
-        name:
-    </text>
+    >name:</text>
 
     <text
         x="125"
         y="120"
         class="value"
-    >
-        Hady Abohany
-    </text>
+    >Hady Abohany</text>
 
 </g>
 
-<g
-    class="line"
-    style="animation-delay: 0.12s;"
->
+<g opacity="0">
+
+    <animate
+        attributeName="opacity"
+        from="0"
+        to="1"
+        begin="0.12s"
+        dur="0.45s"
+        fill="freeze"
+    />
+
+    <animateTransform
+        attributeName="transform"
+        type="translate"
+        from="-8 0"
+        to="0 0"
+        begin="0.12s"
+        dur="0.45s"
+        fill="freeze"
+    />
 
     <text
         x="25"
         y="147"
         class="key"
-    >
-        role:
-    </text>
+    >role:</text>
 
     <text
         x="125"
         y="147"
         class="value"
-    >
-        AI Engineer
-    </text>
+    >AI Engineer</text>
 
 </g>
 
-<g
-    class="line"
-    style="animation-delay: 0.24s;"
->
+<g opacity="0">
+
+    <animate
+        attributeName="opacity"
+        from="0"
+        to="1"
+        begin="0.24s"
+        dur="0.45s"
+        fill="freeze"
+    />
+
+    <animateTransform
+        attributeName="transform"
+        type="translate"
+        from="-8 0"
+        to="0 0"
+        begin="0.24s"
+        dur="0.45s"
+        fill="freeze"
+    />
 
     <text
         x="25"
         y="174"
         class="key"
-    >
-        focus:
-    </text>
+    >focus:</text>
 
     <text
         x="125"
         y="174"
         class="value"
-    >
-        RAG • LLMs • AI Agents
-    </text>
+    >RAG • LLMs • AI Agents</text>
 
 </g>
 
-<g
-    class="line"
-    style="animation-delay: 0.36s;"
->
+<g opacity="0">
+
+    <animate
+        attributeName="opacity"
+        from="0"
+        to="1"
+        begin="0.36s"
+        dur="0.45s"
+        fill="freeze"
+    />
+
+    <animateTransform
+        attributeName="transform"
+        type="translate"
+        from="-8 0"
+        to="0 0"
+        begin="0.36s"
+        dur="0.45s"
+        fill="freeze"
+    />
 
     <text
         x="25"
         y="201"
         class="key"
-    >
-        stack:
-    </text>
+    >stack:</text>
 
     <text
         x="125"
         y="201"
         class="value"
-    >
-        Python • LangChain • FastAPI
-    </text>
+    >Python • LangChain • FastAPI</text>
 
 </g>
 
-<g
-    class="line"
-    style="animation-delay: 0.48s;"
->
+<g opacity="0">
+
+    <animate
+        attributeName="opacity"
+        from="0"
+        to="1"
+        begin="0.48s"
+        dur="0.45s"
+        fill="freeze"
+    />
+
+    <animateTransform
+        attributeName="transform"
+        type="translate"
+        from="-8 0"
+        to="0 0"
+        begin="0.48s"
+        dur="0.45s"
+        fill="freeze"
+    />
 
     <text
         x="25"
         y="228"
         class="key"
-    >
-        db:
-    </text>
+    >db:</text>
 
     <text
         x="125"
         y="228"
         class="value"
-    >
-        PostgreSQL • ChromaDB
-    </text>
+    >PostgreSQL • ChromaDB</text>
 
 </g>
 
-<g
-    class="line"
-    style="animation-delay: 0.60s;"
->
+<g opacity="0">
+
+    <animate
+        attributeName="opacity"
+        from="0"
+        to="1"
+        begin="0.6s"
+        dur="0.45s"
+        fill="freeze"
+    />
+
+    <animateTransform
+        attributeName="transform"
+        type="translate"
+        from="-8 0"
+        to="0 0"
+        begin="0.6s"
+        dur="0.45s"
+        fill="freeze"
+    />
 
     <text
         x="25"
         y="255"
         class="key"
-    >
-        current:
-    </text>
+    >current:</text>
 
     <text
         x="125"
         y="255"
         class="value"
-    >
-        Building AI systems
-    </text>
+    >Building AI systems</text>
 
 </g>
 
-<g
-    class="line"
-    style="animation-delay: 0.72s;"
->
+<g opacity="0">
+
+    <animate
+        attributeName="opacity"
+        from="0"
+        to="1"
+        begin="0.72s"
+        dur="0.45s"
+        fill="freeze"
+    />
+
+    <animateTransform
+        attributeName="transform"
+        type="translate"
+        from="-8 0"
+        to="0 0"
+        begin="0.72s"
+        dur="0.45s"
+        fill="freeze"
+    />
 
     <text
         x="25"
         y="282"
         class="key"
-    >
-        education:
-    </text>
+    >education:</text>
 
     <text
         x="125"
         y="282"
         class="value"
-    >
-        Systems & Computers Engineering
-    </text>
+    >Systems & Computers Engineering</text>
 
 </g>
 

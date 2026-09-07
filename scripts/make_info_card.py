@@ -24,7 +24,8 @@ def make_info_card(output="info-card.svg"):
     width = 490
     height = 330
 
-    svg = f'''<svg
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg
 xmlns="http://www.w3.org/2000/svg"
 viewBox="0 0 {width} {height}"
 width="{width}"
@@ -68,23 +69,6 @@ height="{height}">
         fill: #7ee787;
     }}
 
-    @keyframes fadeIn {{
-        from {{
-            opacity: 0;
-            transform: translateX(-8px);
-        }}
-
-        to {{
-            opacity: 1;
-            transform: translateX(0);
-        }}
-    }}
-
-    .line {{
-        opacity: 0;
-        animation: fadeIn 0.45s ease-out forwards;
-    }}
-
 </style>
 
 <rect
@@ -115,9 +99,7 @@ height="{height}">
     x="75"
     y="23"
     class="title"
->
-    hady@github ~
-</text>
+>hady@github ~</text>
 
 <!-- Prompt -->
 
@@ -125,17 +107,13 @@ height="{height}">
     x="25"
     y="58"
     class="prompt"
->
-    $ whoami
-</text>
+>$ whoami</text>
 
 <text
     x="25"
     y="86"
     class="title"
->
-    {name}
-</text>
+>{name}</text>
 '''
 
     start_y = 120
@@ -143,29 +121,42 @@ height="{height}">
     for i, (key, value) in enumerate(lines):
 
         y = start_y + i * 27
-        delay = i * 0.12
+        delay = round(i * 0.12, 2)
+        dur = 0.45
 
         svg += f'''
-<g
-    class="line"
-    style="animation-delay: {delay:.2f}s;"
->
+<g opacity="0">
+
+    <animate
+        attributeName="opacity"
+        from="0"
+        to="1"
+        begin="{delay}s"
+        dur="{dur}s"
+        fill="freeze"
+    />
+
+    <animateTransform
+        attributeName="transform"
+        type="translate"
+        from="-8 0"
+        to="0 0"
+        begin="{delay}s"
+        dur="{dur}s"
+        fill="freeze"
+    />
 
     <text
         x="25"
         y="{y}"
         class="key"
-    >
-        {key}:
-    </text>
+    >{key}:</text>
 
     <text
         x="125"
         y="{y}"
         class="value"
-    >
-        {value}
-    </text>
+    >{value}</text>
 
 </g>
 '''
