@@ -1,4 +1,5 @@
 import os
+from xml.sax.saxutils import escape
 
 
 def make_info_card(output="info-card.svg"):
@@ -20,6 +21,12 @@ def make_info_card(output="info-card.svg"):
         ("current", current),
         ("education", education),
     ]
+
+    # escape XML-special characters (&, <, >) in every value
+    # so raw "&" (like in "Systems & Computers Engineering")
+    # doesn't break the SVG's XML parsing on GitHub
+    lines = [(key, escape(value)) for key, value in lines]
+    safe_name = escape(name)
 
     width = 490
     height = 330
@@ -113,7 +120,7 @@ height="{height}">
     x="25"
     y="86"
     class="title"
->{name}</text>
+>{safe_name}</text>
 '''
 
     start_y = 120
